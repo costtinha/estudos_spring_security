@@ -44,7 +44,11 @@ public class AuthService {
 
     public TokenResponse login(Map<String, String> credentials) {
         String username = credentials.get("username");
-        userDetailsService.loadUserByUsername(username);
+        String rawPassword = credentials.get("password");
+        var userDetails = userDetailsService.loadUserByUsername(username);
+        if(!passwordEncoder.matches(rawPassword,userDetails.getPassword())){
+            throw new RuntimeException("Senha incorreta");
+        }
         String accessToken = tokenService.generateAccessToken(username);
         String refreshToken = tokenService.generateRefreshToken(username);
         return new TokenResponse(accessToken,refreshToken);

@@ -38,7 +38,7 @@ public class AuthController {
         return authService.register(credentials);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/refresh")
     public TokenResponse refresh(@RequestBody Map<String,String> credentials){
         return authService.refresh(credentials);
        // String refreshToken = credentials.get("refreshToken");
